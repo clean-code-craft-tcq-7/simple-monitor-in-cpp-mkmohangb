@@ -15,16 +15,30 @@ void displayVitalAlert(std::string message) {
     }
 }
 
-int vitalsOk(float temperature, float pulseRate, float spo2) {
+int isTemperatureOk(float temperature) {
   if (temperature > 102 || temperature < 95) {
     displayVitalAlert("Temperature is critical!");
     return 0;
-  } else if (pulseRate < 60 || pulseRate > 100) {
+  }
+  return 1;
+}
+
+int isPulseRateOk(float pulseRate) {
+  if (pulseRate < 60 || pulseRate > 100) {
     displayVitalAlert("Pulse Rate is critical!");
     return 0;
-  } else if (spo2 < 90) {
+  }
+  return 1;
+}
+
+int isSpo2Ok(float spo2) {
+  if (spo2 < 90) {
     displayVitalAlert("Oxygen Saturation is critical!");
     return 0;
   }
   return 1;
+}
+
+int vitalsOk(float temperature, float pulseRate, float spo2) {
+  return isTemperatureOk(temperature) &&  isPulseRateOk(pulseRate) && isSpo2Ok(spo2);
 }

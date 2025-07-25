@@ -6,14 +6,14 @@
 #include <string>
 using std::cout, std::flush, std::this_thread::sleep_for, std::chrono::seconds;
 
-void displayVitalAlert(std::string message) {
-    cout << message;
-    for (int i = 0; i < 6; i++) {
-      cout << "\r* " << flush;
-      sleep_for(seconds(1));
-      cout << "\r *" << flush;
-      sleep_for(seconds(1));
-    }
+void displayVitalAlert(const std::string& message) {
+  cout << message;
+  for (int i = 0; i < 6; i++) {
+    cout << "\r* " << flush;
+    sleep_for(seconds(1));
+    cout << "\r *" << flush;
+    sleep_for(seconds(1));
+  }
 }
 
 int isTemperatureOk(float temperature) {

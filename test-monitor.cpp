@@ -22,13 +22,13 @@ TEST(Monitor, Spo2Critical) {
 }
 
 TEST(Monitor, TemperatureOk) {
-  ASSERT_TRUE(isVitalsOk(98, 75, 95));
+  ASSERT_TRUE(vitalsOk(98, 75, 95));
 }
 
 TEST(Monitor, pulseRateOk) {
-  ASSERT_TRUE(isVitalsOk(98, 75, 95));
+  ASSERT_TRUE(vitalsOk(98, 75, 95));
 }
 
 TEST(Monitor, Spo2Ok) {
-  ASSERT_TRUE(isVitalsOk(98, 75, 95));
+  ASSERT_TRUE(vitalsOk(98, 75, 95));
 }

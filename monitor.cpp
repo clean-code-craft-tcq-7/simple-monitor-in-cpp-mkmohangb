@@ -5,14 +5,33 @@
 #include <iostream>
 using std::cout, std::flush, std::this_thread::sleep_for, std::chrono::seconds;
 
-void displayAlert(const std::string& message) {
+
+void delay(int seconds) {
+  sleep_for(std::chrono::seconds(seconds));
+}
+
+void (*delayPtr)(int) = delay;
+
+void setDelayFunction(void (*func)(int)) {
+  delayPtr = func;
+}
+
+void displayAlert(const char* message) {
   cout << message << "\n";
   for (int i = 0; i < 6; i++) {
     cout << "\r* " << flush;
-    sleep_for(seconds(1));
+    delayPtr(1);
     cout << "\r *" << flush;
-    sleep_for(seconds(1));
+    delayPtr(1);
   }
+}
+
+int alertIfNotOk(int value, float min, float max, const char* message) {
+  if (value < min || value > max) {
+    displayAlert(message);
+    return 0;
+  }
+  return 1;
 }
 
 int isInRange(float value, float min, float max) {
@@ -20,31 +39,26 @@ int isInRange(float value, float min, float max) {
 }
 
 int isTemperatureOk(float temperature) {
-  if (!isInRange(temperature, 95, 102)) {
-    displayAlert("Temperature is critical!");
-    return 0;
-  }
-  return 1;
+  return alertIfNotOk(temperature, 95, 102, "Temperature is out of range!");
 }
 
 int isPulseRateOk(float pulseRate) {
-  if (!isInRange(pulseRate, 60, 100)) {
-    displayAlert("Pulse Rate is out of range!");
-    return 0;
-  }
-  return 1;
+  return alertIfNotOk(pulseRate, 60, 100, "Pulse Rate is out of range!");
 }
 
 int isSpo2Ok(float spo2) {
-  if (!isInRange(spo2, 90, 100)) {
-    displayAlert("Oxygen Saturation out of range!");
-    return 0;
-  }
-  return 1;
+  return alertIfNotOk(spo2, 90, 100, "SpO2 is out of range!");
+}
+
+int isBloodSugarOk(float bloodSugar) {
+  return alertIfNotOk(bloodSugar, 70, 110, "Blood Sugar is out of range!");
 }
 
 int vitalsOk(float temperature, float pulseRate, float spo2) {
   return isTemperatureOk(temperature) &&
          isPulseRateOk(pulseRate) &&
          isSpo2Ok(spo2);
+}
+
+int report_is_normal(Report report) {
 }

@@ -5,13 +5,23 @@
 #include <iostream>
 using std::cout, std::flush, std::this_thread::sleep_for, std::chrono::seconds;
 
+void delay(int seconds) {
+  sleep_for(std::chrono::seconds(seconds));
+}
+
+void (*delayPtr)(int) = delay;
+
+void setDelayFunction(void (*delayFunction)(int)) {
+  delayPtr = delayFunction;
+}
+
 void displayVitalAlert(const char* message) {
   cout << message;
   for (int i = 0; i < 6; i++) {
     cout << "\r* " << flush;
-    sleep_for(seconds(1));
+    delayPtr(1);
     cout << "\r *" << flush;
-    sleep_for(seconds(1));
+    delayPtr(1);
   }
 }
 
